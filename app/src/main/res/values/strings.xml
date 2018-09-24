@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Box.io</string>
+    <string name="choose_box_size">Choose box size:</string>
+    <string name="choose_box_color">Choose box color</string>
+    <string name="sign_my_box">I want to sign my box</string>
+    <string name="enter_your_name">Enter your name</string>
+</resources>
