@@ -10,10 +10,14 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 import dev.challenge.boxio.util.Layout;
 import dev.challenge.boxio.view.AbstractView;
 
 public abstract class AbstractActivity extends AppCompatActivity implements AbstractView {
+
+    private Unbinder unbinder;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -23,7 +27,16 @@ public abstract class AbstractActivity extends AppCompatActivity implements Abst
             setContentView(getClass().getAnnotation(Layout.class).id());
         }
 
+        unbinder = ButterKnife.bind(this);
+
         inject();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        unbinder.unbind();
     }
 
     abstract void inject();

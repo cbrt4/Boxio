@@ -1,4 +1,4 @@
-package dev.challenge.boxio.managers;
+package dev.challenge.boxio.util;
 
 import android.content.Context;
 

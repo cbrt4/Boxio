@@ -6,8 +6,8 @@ import javax.inject.Singleton;
 
 import dagger.Component;
 import dev.challenge.boxio.di.modules.ApplicationModule;
-import dev.challenge.boxio.managers.SharedPreferencesManager;
 import dev.challenge.boxio.model.room.dao.BoxDao;
+import dev.challenge.boxio.util.SharedPreferencesManager;
 
 @Singleton
 @Component(modules = {ApplicationModule.class})
