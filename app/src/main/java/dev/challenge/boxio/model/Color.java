@@ -1,34 +1,24 @@
 package dev.challenge.boxio.model;
 
-import android.arch.persistence.room.ColumnInfo;
-import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
 import java.util.Objects;
 
-@Entity(tableName = "color")
-public class ColorEntity {
+public class Color {
 
-    public ColorEntity(String colorName, String colorHex) {
+    public Color(String colorName, String colorHex) {
         this.colorName = colorName;
         this.colorHex = colorHex;
     }
 
-    @PrimaryKey(autoGenerate = true)
-    public long id;
-
-    @ColumnInfo(name = "color_name")
     public String colorName;
-
-    @ColumnInfo(name = "color_hex")
     public String colorHex;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof ColorEntity)) return false;
-        ColorEntity that = (ColorEntity) o;
+        if (!(o instanceof Color)) return false;
+        Color that = (Color) o;
         return Objects.equals(colorName, that.colorName) &&
                 Objects.equals(colorHex, that.colorHex);
     }
@@ -41,6 +31,6 @@ public class ColorEntity {
     @NonNull
     @Override
     public String toString() {
-        return "ColorEntity { colorName: " + colorName + ", colorHex: " + colorHex + " }";
+        return "Color { colorName: " + colorName + ", colorHex: " + colorHex + " }";
     }
 }
