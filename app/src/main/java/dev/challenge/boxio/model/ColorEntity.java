@@ -5,6 +5,8 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
+import java.util.Objects;
+
 @Entity(tableName = "color")
 public class ColorEntity {
 
@@ -22,12 +24,23 @@ public class ColorEntity {
     @ColumnInfo(name = "color_hex")
     public String colorHex;
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ColorEntity)) return false;
+        ColorEntity that = (ColorEntity) o;
+        return Objects.equals(colorName, that.colorName) &&
+                Objects.equals(colorHex, that.colorHex);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(colorName, colorHex);
+    }
+
     @NonNull
     @Override
     public String toString() {
-        return "ColorEntity{" +
-                "colorName='" + colorName + '\'' +
-                ", colorHex='" + colorHex + '\'' +
-                '}';
+        return "ColorEntity { colorName: " + colorName + ", colorHex: " + colorHex + " }";
     }
 }

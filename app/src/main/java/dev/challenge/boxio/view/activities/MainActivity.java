@@ -14,18 +14,8 @@ import butterknife.BindView;
 import dev.challenge.boxio.R;
 import dev.challenge.boxio.application.BoxIoApp;
 import dev.challenge.boxio.di.components.DaggerScreenComponent;
-import dev.challenge.boxio.model.BoxEntity;
-import dev.challenge.boxio.model.ColorEntity;
-import dev.challenge.boxio.model.UserEntity;
-import dev.challenge.boxio.model.room.dao.BoxDao;
-import dev.challenge.boxio.model.room.dao.ColorDao;
-import dev.challenge.boxio.model.room.dao.UserDao;
+import dev.challenge.boxio.presenters.MainPresenter;
 import dev.challenge.boxio.util.Layout;
-import dev.challenge.boxio.util.SharedPreferencesManager;
-import io.reactivex.Observable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.schedulers.Schedulers;
 
 @Layout(id = R.layout.activity_main)
 public class MainActivity extends AbstractActivity {
@@ -55,39 +45,15 @@ public class MainActivity extends AbstractActivity {
     FloatingActionButton confirmFab;
 
     @Inject
-    SharedPreferencesManager sharedPreferencesManager;
-
-    @Inject
-    UserDao userDao;
-
-    @Inject
-    BoxDao boxDao;
-
-    @Inject
-    ColorDao colorDao;
+    MainPresenter mainPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mainPresenter.setView(this);
+        mainPresenter.doSmth();
 
         setupViews();
-
-        UserEntity userEntity =
-                new UserEntity("Jumanji",
-                        "jumanji@gmail.com",
-                        new BoxEntity(BoxEntity.BoxSize.Medium.name(),
-                                new ColorEntity("Black", "000000")));
-
-        new CompositeDisposable().add(Observable.fromCallable(() -> {
-            userDao.insertUser(userEntity);
-            return userEntity;
-        }).subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(user -> System.out.println("Inserted user: " + user)));
-
-        new CompositeDisposable().add(userDao.getUsers().subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(users -> System.out.println("Users from DB: " + users)));
     }
 
     private void setupViews() {
@@ -156,6 +122,12 @@ public class MainActivity extends AbstractActivity {
                 editTextUserName.setVisibility(View.GONE);
             }
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mainPresenter.destroy();
     }
 
     @Override

@@ -6,6 +6,8 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
+import java.util.Objects;
+
 @Entity(tableName = "box")
 public class BoxEntity {
 
@@ -25,12 +27,23 @@ public class BoxEntity {
     @Embedded(prefix = "color_")
     public ColorEntity boxColor;
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof BoxEntity)) return false;
+        BoxEntity boxEntity = (BoxEntity) o;
+        return Objects.equals(boxSize, boxEntity.boxSize) &&
+                Objects.equals(boxColor, boxEntity.boxColor);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(boxSize, boxColor);
+    }
+
     @NonNull
     @Override
     public String toString() {
-        return "BoxEntity{" +
-                "boxSize='" + boxSize + '\'' +
-                ", boxColor=" + boxColor +
-                '}';
+        return "BoxEntity { size: " + boxSize + ", color:" + boxColor.colorName + ", colorHex: " + boxColor.colorHex + " }";
     }
 }

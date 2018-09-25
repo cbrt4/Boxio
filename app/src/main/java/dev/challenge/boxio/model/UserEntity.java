@@ -6,6 +6,8 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
+import java.util.Objects;
+
 @Entity(tableName = "user")
 public class UserEntity {
 
@@ -27,13 +29,24 @@ public class UserEntity {
     @Embedded(prefix = "box_")
     public BoxEntity userBox;
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof UserEntity)) return false;
+        UserEntity that = (UserEntity) o;
+        return Objects.equals(userName, that.userName) &&
+                Objects.equals(userMail, that.userMail) &&
+                Objects.equals(userBox, that.userBox);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(userName, userMail, userBox);
+    }
+
     @NonNull
     @Override
     public String toString() {
-        return "UserEntity{" +
-                "userName='" + userName + '\'' +
-                ", userMail='" + userMail + '\'' +
-                ", userBox=" + userBox +
-                '}';
+        return "UserEntity { userName: " + userName + ", userMail: " + userMail + ", userBoxSize: " + userBox.boxSize + ", userBoxColorName: " + userBox.boxColor.colorName + ", userBoxColorHex: " + userBox.boxColor.colorHex + " }";
     }
 }
