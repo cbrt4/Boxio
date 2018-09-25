@@ -7,6 +7,8 @@ import javax.inject.Singleton;
 import dagger.Component;
 import dev.challenge.boxio.di.modules.ApplicationModule;
 import dev.challenge.boxio.model.room.dao.BoxDao;
+import dev.challenge.boxio.model.room.dao.ColorDao;
+import dev.challenge.boxio.model.room.dao.UserDao;
 import dev.challenge.boxio.util.SharedPreferencesManager;
 
 @Singleton
@@ -17,5 +19,9 @@ public interface ApplicationComponent {
 
     SharedPreferencesManager sharedPreferences();
 
+    UserDao userDao();
+
     BoxDao boxDao();
+
+    ColorDao colorDao();
 }

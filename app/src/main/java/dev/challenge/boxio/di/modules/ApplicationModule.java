@@ -9,6 +9,8 @@ import dagger.Module;
 import dagger.Provides;
 import dev.challenge.boxio.model.room.AppDatabase;
 import dev.challenge.boxio.model.room.dao.BoxDao;
+import dev.challenge.boxio.model.room.dao.ColorDao;
+import dev.challenge.boxio.model.room.dao.UserDao;
 
 @Module
 public class ApplicationModule {
@@ -30,8 +32,19 @@ public class ApplicationModule {
         return Room.databaseBuilder(context, AppDatabase.class, "box-db").build();
     }
 
+
+    @Provides
+    public UserDao provideUserDao(AppDatabase appDatabase) {
+        return appDatabase.userDao();
+    }
+
     @Provides
     public BoxDao provideBoxDao(AppDatabase appDatabase) {
         return appDatabase.boxDao();
+    }
+
+    @Provides
+    public ColorDao provideColorDao(AppDatabase appDatabase) {
+        return appDatabase.colorDao();
     }
 }
