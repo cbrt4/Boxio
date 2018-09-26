@@ -1,5 +1,8 @@
 package dev.challenge.boxio.presenters;
 
+import android.os.Handler;
+import android.os.Looper;
+
 import javax.inject.Inject;
 
 import dev.challenge.boxio.model.User;
@@ -21,8 +24,14 @@ public class MainPresenter extends AbstractPresenter<MainActivity> {
         compositeDisposable = new CompositeDisposable();
     }
 
-    public void doSmth(User user) {
-        System.out.println(jsonConverter.createUserJson(user));
+    public void submit(User user) {
+        if (getView() != null) {
+            getView().showLoading();
+            System.out.println(jsonConverter.createUserJson(user));
+            new Handler(Looper.getMainLooper()).postDelayed(() -> {
+                getView().hideLoading();
+            }, 3000);
+        }
     }
 
     @Override

@@ -28,7 +28,9 @@ public class JSONConverter {
     public JSONObject createUserJson(User user) {
         JSONObject userJson = new JSONObject();
         try {
-            userJson.put(USER_NAME_KEY, user.getUserName());
+            if (user.getUserName() != null && !user.getUserName().isEmpty()) {
+                userJson.put(USER_NAME_KEY, user.getUserName());
+            }
             userJson.put(USER_MAIL_KEY, user.getUserMail());
             userJson.put(USER_BOX_KEY, createBoxJson(user.getUserBox()));
         } catch (JSONException e) {

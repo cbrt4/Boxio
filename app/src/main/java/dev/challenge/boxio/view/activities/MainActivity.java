@@ -2,7 +2,9 @@ package dev.challenge.boxio.view.activities;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.widget.ContentLoadingProgressBar;
 import android.support.v7.widget.AppCompatCheckBox;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioGroup;
@@ -24,9 +26,14 @@ import dev.challenge.boxio.util.validators.UserValidator;
 @Layout(id = R.layout.activity_main)
 public class MainActivity extends AbstractActivity {
 
+    private final String TAG = getClass().getSimpleName();
+
     private User user;
     private Box.BoxSize boxSize;
     private Color color;
+
+    @BindView(R.id.loading_progress_horizontal)
+    ContentLoadingProgressBar progressBar;
 
     @BindView(R.id.choose_box_size_text_view)
     TextView textViewBoxSize;
@@ -132,9 +139,12 @@ public class MainActivity extends AbstractActivity {
 
     private void setupFab() {
         confirmFab.setOnClickListener(view -> {
-            user = new User(editTextUserName.getText().toString(), editTextUserMail.getText().toString(), new Box(boxSize, color));
+            user = new User(editTextUserName.getText().toString(),
+                    editTextUserMail.getText().toString(),
+                    new Box(boxSize, color));
             if (userValidator.isValid(user)) {
-                mainPresenter.doSmth(user);
+                mainPresenter.submit(user);
+                hideKeyboard();
             } else {
                 showToast(userValidator.getValidationMessage());
             }
@@ -156,16 +166,17 @@ public class MainActivity extends AbstractActivity {
 
     @Override
     public void showLoading() {
-
+        progressBar.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideLoading() {
-
+        progressBar.setVisibility(View.GONE);
     }
 
     @Override
     public void showErrorMessage(String error) {
-
+        Log.e(TAG, error);
+        showToast(error);
     }
 }
