@@ -8,13 +8,21 @@ public class Box {
 
     public enum BoxSize {Small, Medium, Large}
 
-    public Box(String boxSize, Color boxColor) {
+    private BoxSize boxSize;
+    private Color boxColor;
+
+    public Box(BoxSize boxSize, Color boxColor) {
         this.boxSize = boxSize;
         this.boxColor = boxColor;
     }
 
-    public String boxSize;
-    public Color boxColor;
+    public BoxSize getBoxSize() {
+        return boxSize;
+    }
+
+    public Color getBoxColor() {
+        return boxColor;
+    }
 
     @Override
     public boolean equals(Object o) {

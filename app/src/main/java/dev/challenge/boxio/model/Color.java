@@ -6,13 +6,21 @@ import java.util.Objects;
 
 public class Color {
 
+    private String colorName;
+    private String colorHex;
+
     public Color(String colorName, String colorHex) {
         this.colorName = colorName;
         this.colorHex = colorHex;
     }
 
-    public String colorName;
-    public String colorHex;
+    public String getColorName() {
+        return colorName;
+    }
+
+    public String getColorHex() {
+        return colorHex;
+    }
 
     @Override
     public boolean equals(Object o) {

@@ -6,15 +6,27 @@ import java.util.Objects;
 
 public class User {
 
+    private String userName;
+    private String userMail;
+    private Box userBox;
+
     public User(String userName, String userMail, Box userBox) {
         this.userName = userName;
         this.userMail = userMail;
         this.userBox = userBox;
     }
 
-    public String userName;
-    public String userMail;
-    public Box userBox;
+    public String getUserName() {
+        return userName;
+    }
+
+    public String getUserMail() {
+        return userMail;
+    }
+
+    public Box getUserBox() {
+        return userBox;
+    }
 
     @Override
     public boolean equals(Object o) {

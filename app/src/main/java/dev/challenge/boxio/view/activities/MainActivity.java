@@ -14,11 +14,19 @@ import butterknife.BindView;
 import dev.challenge.boxio.R;
 import dev.challenge.boxio.application.BoxIoApp;
 import dev.challenge.boxio.di.components.DaggerScreenComponent;
+import dev.challenge.boxio.model.Box;
+import dev.challenge.boxio.model.Color;
+import dev.challenge.boxio.model.User;
 import dev.challenge.boxio.presenters.MainPresenter;
 import dev.challenge.boxio.util.Layout;
+import dev.challenge.boxio.util.validators.UserValidator;
 
 @Layout(id = R.layout.activity_main)
 public class MainActivity extends AbstractActivity {
+
+    private User user;
+    private Box.BoxSize boxSize;
+    private Color color;
 
     @BindView(R.id.choose_box_size_text_view)
     TextView textViewBoxSize;
@@ -47,11 +55,14 @@ public class MainActivity extends AbstractActivity {
     @Inject
     MainPresenter mainPresenter;
 
+    @Inject
+    UserValidator userValidator;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         mainPresenter.setView(this);
-        mainPresenter.doSmth();
 
         setupViews();
     }
@@ -59,6 +70,7 @@ public class MainActivity extends AbstractActivity {
     private void setupViews() {
         setupRadioGroups();
         setupCheckBox();
+        setupFab();
     }
 
     private void setupRadioGroups() {
@@ -66,18 +78,15 @@ public class MainActivity extends AbstractActivity {
         radioGroupBoxSize.setOnCheckedChangeListener((radioGroup, checkedId) -> {
             switch (checkedId) {
                 case R.id.small_box_radio:
-                    showToast("Small");
+                    boxSize = Box.BoxSize.Small;
                     break;
 
                 case R.id.medium_box_radio:
-                    showToast("Medium");
+                    boxSize = Box.BoxSize.Medium;
                     break;
 
                 case R.id.large_box_radio:
-                    showToast("Large");
-                    break;
-
-                default:
+                    boxSize = Box.BoxSize.Large;
                     break;
             }
         });
@@ -85,30 +94,27 @@ public class MainActivity extends AbstractActivity {
         radioGroupBoxColor.setOnCheckedChangeListener((radioGroup, checkedId) -> {
             switch (checkedId) {
                 case R.id.red_box_radio:
-                    showToast("Red");
+                    color = new Color("Red", "FF0000");
                     break;
 
                 case R.id.orange_box_radio:
-                    showToast("Orange");
+                    color = new Color("Orange", "FF8000");
                     break;
 
                 case R.id.yellow_box_radio:
-                    showToast("Yellow");
+                    color = new Color("Yellow", "FFFF00");
                     break;
 
                 case R.id.green_box_radio:
-                    showToast("Green");
+                    color = new Color("Green", "00FF00");
                     break;
 
                 case R.id.blue_box_radio:
-                    showToast("Blue");
+                    color = new Color("Blue", "0000FF");
                     break;
 
                 case R.id.purple_box_radio:
-                    showToast("Purple");
-                    break;
-
-                default:
+                    color = new Color("Purple", "FF00FF");
                     break;
             }
         });
@@ -120,6 +126,17 @@ public class MainActivity extends AbstractActivity {
                 editTextUserName.setVisibility(View.VISIBLE);
             } else {
                 editTextUserName.setVisibility(View.GONE);
+            }
+        });
+    }
+
+    private void setupFab() {
+        confirmFab.setOnClickListener(view -> {
+            user = new User(editTextUserName.getText().toString(), editTextUserMail.getText().toString(), new Box(boxSize, color));
+            if (userValidator.isValid(user)) {
+                mainPresenter.doSmth(user);
+            } else {
+                showToast(userValidator.getValidationMessage());
             }
         });
     }
