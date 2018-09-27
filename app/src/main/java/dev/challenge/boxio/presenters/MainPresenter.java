@@ -27,8 +27,8 @@ public class MainPresenter extends AbstractPresenter<MainActivity> {
     public void submit(User user) {
         if (getView() != null) {
             getView().showLoading();
-            System.out.println(jsonConverter.createUserJson(user));
             new Handler(Looper.getMainLooper()).postDelayed(() -> {
+                System.out.println(jsonConverter.createUserJson(user));
                 getView().hideLoading();
             }, 3000);
         }

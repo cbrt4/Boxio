@@ -14,6 +14,8 @@ public class JSONConverter {
     private final String USER_NAME_KEY = "user_name";
     private final String USER_MAIL_KEY = "user_mail";
     private final String USER_BOX_KEY = "user_box";
+    private final String USER_INFO_KEY = "user_info";
+    private final String UPDATED_AT_KEY = "updated_at";
 
     private final String BOX_SIZE_KEY = "box_size";
     private final String BOX_COLOR_KEY = "box_color";
@@ -31,8 +33,10 @@ public class JSONConverter {
             if (user.getUserName() != null && !user.getUserName().isEmpty()) {
                 userJson.put(USER_NAME_KEY, user.getUserName());
             }
-            userJson.put(USER_MAIL_KEY, user.getUserMail());
-            userJson.put(USER_BOX_KEY, createBoxJson(user.getUserBox()));
+            userJson.put(USER_MAIL_KEY, user.getUserMail())
+                    .put(USER_BOX_KEY, createBoxJson(user.getUserBox()))
+                    .put(USER_INFO_KEY, user.getUserInfo())
+                    .put(UPDATED_AT_KEY, user.getUpdatedAt());
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -42,8 +46,8 @@ public class JSONConverter {
     public JSONObject createBoxJson(Box box) {
         JSONObject boxJson = new JSONObject();
         try {
-            boxJson.put(BOX_SIZE_KEY, box.getBoxSize());
-            boxJson.put(BOX_COLOR_KEY, createColorJson(box.getBoxColor()));
+            boxJson.put(BOX_SIZE_KEY, box.getBoxSize())
+                    .put(BOX_COLOR_KEY, createColorJson(box.getBoxColor()));
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -53,8 +57,8 @@ public class JSONConverter {
     public JSONObject createColorJson(Color color) {
         JSONObject colorJson = new JSONObject();
         try {
-            colorJson.put(COLOR_NAME_KEY, color.getColorName());
-            colorJson.put(COLOR_HEX_KEY, color.getColorHex());
+            colorJson.put(COLOR_NAME_KEY, color.getColorName())
+                    .put(COLOR_HEX_KEY, color.getColorHex());
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -64,7 +68,11 @@ public class JSONConverter {
     public User getUserFromJson(String userInfo) {
         try {
             JSONObject userJson = new JSONObject(userInfo);
-            return new User(userJson.getString(USER_NAME_KEY), userJson.getString(USER_MAIL_KEY), getBoxFromJson(userJson.getString(USER_BOX_KEY)));
+            return new User(userJson.getString(USER_NAME_KEY),
+                    userJson.getString(USER_MAIL_KEY),
+                    getBoxFromJson(userJson.getString(USER_BOX_KEY)),
+                    userJson.getString(USER_INFO_KEY),
+                    userJson.getString(UPDATED_AT_KEY));
         } catch (JSONException e) {
             e.printStackTrace();
             return null;

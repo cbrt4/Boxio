@@ -6,9 +6,9 @@ import javax.inject.Inject;
 
 import dev.challenge.boxio.model.User;
 
-public class UserValidator implements Validator<User> {
+public class UserValidator extends Validator<User> {
 
-    private String validationMessage;
+    //private String validationMessage;
 
     @Inject
     public UserValidator() {
@@ -21,11 +21,6 @@ public class UserValidator implements Validator<User> {
             validationMessage = "User must is undefined";
             return false;
         }
-
-//        if (user.getUserName() == null || user.getUserName().isEmpty()) {
-//            validationMessage = "User name is undefined";
-//            return false;
-//        }
 
         if (user.getUserMail() == null || user.getUserMail().isEmpty()) {
             validationMessage = "User e-mail is undefined";
@@ -53,10 +48,5 @@ public class UserValidator implements Validator<User> {
         }
 
         return true;
-    }
-
-    @Override
-    public String getValidationMessage() {
-        return validationMessage;
     }
 }

@@ -10,6 +10,10 @@ import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 import javax.inject.Inject;
 
 import butterknife.BindView;
@@ -21,6 +25,7 @@ import dev.challenge.boxio.model.Color;
 import dev.challenge.boxio.model.User;
 import dev.challenge.boxio.presenters.MainPresenter;
 import dev.challenge.boxio.util.Layout;
+import dev.challenge.boxio.util.validators.UserNameValidator;
 import dev.challenge.boxio.util.validators.UserValidator;
 
 @Layout(id = R.layout.activity_main)
@@ -31,6 +36,7 @@ public class MainActivity extends AbstractActivity {
     private User user;
     private Box.BoxSize boxSize;
     private Color color;
+    private SimpleDateFormat format = new SimpleDateFormat("dd MMM yyyy 'at' HH:mm:ss z", Locale.getDefault());
 
     @BindView(R.id.loading_progress_horizontal)
     ContentLoadingProgressBar progressBar;
@@ -64,6 +70,9 @@ public class MainActivity extends AbstractActivity {
 
     @Inject
     UserValidator userValidator;
+
+    @Inject
+    UserNameValidator userNameValidator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -141,7 +150,15 @@ public class MainActivity extends AbstractActivity {
         confirmFab.setOnClickListener(view -> {
             user = new User(editTextUserName.getText().toString(),
                     editTextUserMail.getText().toString(),
-                    new Box(boxSize, color));
+                    new Box(boxSize, color),
+                    "",
+                    format.format(new Date(System.currentTimeMillis())));
+
+            if (checkBoxSignBox.isChecked() && !userNameValidator.isValid(user.getUserName())) {
+                showToast(userNameValidator.getValidationMessage());
+                return;
+            }
+
             if (userValidator.isValid(user)) {
                 mainPresenter.submit(user);
                 hideKeyboard();
@@ -167,11 +184,13 @@ public class MainActivity extends AbstractActivity {
     @Override
     public void showLoading() {
         progressBar.setVisibility(View.VISIBLE);
+        confirmFab.hide();
     }
 
     @Override
     public void hideLoading() {
         progressBar.setVisibility(View.GONE);
+        confirmFab.show();
     }
 
     @Override

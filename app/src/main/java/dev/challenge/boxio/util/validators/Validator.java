@@ -1,8 +1,12 @@
 package dev.challenge.boxio.util.validators;
 
-public interface Validator<T> {
+public abstract class Validator<T> {
 
-    boolean isValid(T value);
+    String validationMessage;
 
-    String getValidationMessage();
+    public abstract boolean isValid(T value);
+
+    public String getValidationMessage() {
+        return validationMessage;
+    }
 }

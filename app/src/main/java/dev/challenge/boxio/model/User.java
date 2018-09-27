@@ -9,11 +9,15 @@ public class User {
     private String userName;
     private String userMail;
     private Box userBox;
+    private String userInfo;
+    private String updatedAt;
 
-    public User(String userName, String userMail, Box userBox) {
+    public User(String userName, String userMail, Box userBox, String userInfo, String updatedAt) {
         this.userName = userName;
         this.userMail = userMail;
         this.userBox = userBox;
+        this.userInfo = userInfo;
+        this.updatedAt = updatedAt;
     }
 
     public String getUserName() {
@@ -28,6 +32,14 @@ public class User {
         return userBox;
     }
 
+    public String getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public String getUserInfo() {
+        return userInfo;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -35,7 +47,9 @@ public class User {
         User that = (User) o;
         return Objects.equals(userName, that.userName) &&
                 Objects.equals(userMail, that.userMail) &&
-                Objects.equals(userBox, that.userBox);
+                Objects.equals(userBox, that.userBox) &&
+                Objects.equals(userInfo, that.userInfo) &&
+                Objects.equals(updatedAt, that.updatedAt);
     }
 
     @Override

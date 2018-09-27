@@ -55,7 +55,7 @@ public abstract class AbstractActivity extends AppCompatActivity implements Abst
     public void hideKeyboard() {
         View view = getCurrentFocus();
         InputMethodManager inputMethodManager;
-        if (view != null && (inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE)) != null) {
+        if (view != null && (inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE)) != null && inputMethodManager.isActive()) {
             inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
     }
