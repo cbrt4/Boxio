@@ -10,6 +10,8 @@ import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import org.json.JSONObject;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -25,11 +27,9 @@ import dev.challenge.boxio.model.Color;
 import dev.challenge.boxio.model.User;
 import dev.challenge.boxio.presenters.MainPresenter;
 import dev.challenge.boxio.util.Layout;
-import dev.challenge.boxio.util.validators.UserNameValidator;
-import dev.challenge.boxio.util.validators.UserValidator;
 
 @Layout(id = R.layout.activity_main)
-public class MainActivity extends AbstractActivity {
+public class MainActivity extends AbstractActivity implements MainActivityView {
 
     private final String TAG = getClass().getSimpleName();
 
@@ -67,12 +67,6 @@ public class MainActivity extends AbstractActivity {
 
     @Inject
     MainPresenter mainPresenter;
-
-    @Inject
-    UserValidator userValidator;
-
-    @Inject
-    UserNameValidator userNameValidator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -148,23 +142,13 @@ public class MainActivity extends AbstractActivity {
 
     private void setupFab() {
         confirmFab.setOnClickListener(view -> {
-            user = new User(editTextUserName.getText().toString(),
+            hideKeyboard();
+            mainPresenter.submit(new User(editTextUserName.getText().toString(),
                     editTextUserMail.getText().toString(),
                     new Box(boxSize, color),
                     "",
-                    format.format(new Date(System.currentTimeMillis())));
-
-            if (checkBoxSignBox.isChecked() && !userNameValidator.isValid(user.getUserName())) {
-                showToast(userNameValidator.getValidationMessage());
-                return;
-            }
-
-            if (userValidator.isValid(user)) {
-                mainPresenter.submit(user);
-                hideKeyboard();
-            } else {
-                showToast(userValidator.getValidationMessage());
-            }
+                    format.format(new Date(System.currentTimeMillis())),
+                    checkBoxSignBox.isChecked()));
         });
     }
 
@@ -194,8 +178,20 @@ public class MainActivity extends AbstractActivity {
     }
 
     @Override
+    public void showSuccessMessage(String message) {
+        //showToast(message);
+        showDialogNotification(message);
+    }
+
+    @Override
     public void showErrorMessage(String error) {
         Log.e(TAG, error);
-        showToast(error);
+        //showToast(error);
+        showDialogNotification(error);
+    }
+
+    @Override
+    public void onUserProfileSubmitted(JSONObject userJson) {
+        System.out.println(userJson);
     }
 }

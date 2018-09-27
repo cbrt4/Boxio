@@ -8,5 +8,7 @@ public interface AbstractView {
 
     void hideLoading();
 
+    void showSuccessMessage(@Nullable String message);
+
     void showErrorMessage(@Nullable String error);
 }

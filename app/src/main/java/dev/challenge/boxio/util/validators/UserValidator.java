@@ -8,8 +8,6 @@ import dev.challenge.boxio.model.User;
 
 public class UserValidator extends Validator<User> {
 
-    //private String validationMessage;
-
     @Inject
     public UserValidator() {
     }
@@ -20,6 +18,18 @@ public class UserValidator extends Validator<User> {
         if (user == null) {
             validationMessage = "User must is undefined";
             return false;
+        }
+
+        if (user.isSignBox()) {
+            if (user.getUserName() == null || user.getUserName().length() < 2) {
+                validationMessage = "User name is undefined";
+                return false;
+            }
+
+            if (user.getUserName().matches("[A-Z, a-z]+")) {
+                validationMessage = "Wrong name format";
+                return false;
+            }
         }
 
         if (user.getUserMail() == null || user.getUserMail().isEmpty()) {

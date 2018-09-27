@@ -11,13 +11,15 @@ public class User {
     private Box userBox;
     private String userInfo;
     private String updatedAt;
+    private boolean signBox;
 
-    public User(String userName, String userMail, Box userBox, String userInfo, String updatedAt) {
+    public User(String userName, String userMail, Box userBox, String userInfo, String updatedAt, boolean signBox) {
         this.userName = userName;
         this.userMail = userMail;
         this.userBox = userBox;
         this.userInfo = userInfo;
         this.updatedAt = updatedAt;
+        this.signBox = signBox;
     }
 
     public String getUserName() {
@@ -38,6 +40,10 @@ public class User {
 
     public String getUserInfo() {
         return userInfo;
+    }
+
+    public boolean isSignBox() {
+        return signBox;
     }
 
     @Override

@@ -16,6 +16,7 @@ public class JSONConverter {
     private final String USER_BOX_KEY = "user_box";
     private final String USER_INFO_KEY = "user_info";
     private final String UPDATED_AT_KEY = "updated_at";
+    private final String SIGN_BOX_KEY = "sign_box";
 
     private final String BOX_SIZE_KEY = "box_size";
     private final String BOX_COLOR_KEY = "box_color";
@@ -36,7 +37,8 @@ public class JSONConverter {
             userJson.put(USER_MAIL_KEY, user.getUserMail())
                     .put(USER_BOX_KEY, createBoxJson(user.getUserBox()))
                     .put(USER_INFO_KEY, user.getUserInfo())
-                    .put(UPDATED_AT_KEY, user.getUpdatedAt());
+                    .put(UPDATED_AT_KEY, user.getUpdatedAt())
+                    .put(SIGN_BOX_KEY, user.isSignBox());
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -72,7 +74,8 @@ public class JSONConverter {
                     userJson.getString(USER_MAIL_KEY),
                     getBoxFromJson(userJson.getString(USER_BOX_KEY)),
                     userJson.getString(USER_INFO_KEY),
-                    userJson.getString(UPDATED_AT_KEY));
+                    userJson.getString(UPDATED_AT_KEY),
+                    userJson.getBoolean(SIGN_BOX_KEY));
         } catch (JSONException e) {
             e.printStackTrace();
             return null;
