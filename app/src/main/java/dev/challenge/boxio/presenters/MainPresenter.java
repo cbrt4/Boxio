@@ -41,17 +41,18 @@ public class MainPresenter extends AbstractPresenter<MainActivityView> {
         if (getView() != null) {
             getView().showLoading();
 
-            compositeDisposable.add(Observable.create((ObservableOnSubscribe<User>) emitter -> new Handler(Looper.getMainLooper()).postDelayed(() -> {
-                if (userValidator.isValid(user) && boxValidator.isValid(user.getUserBox())) {
-                    emitter.onNext(user);
-                } else {
-                    if (!userValidator.isValid(user)) {
-                        emitter.onError(new Throwable(userValidator.getValidationMessage()));
-                    } else {
-                        emitter.onError(new Throwable(boxValidator.getValidationMessage()));
-                    }
-                }
-            }, 2000)).subscribeOn(Schedulers.io())
+            compositeDisposable.add(Observable.create((ObservableOnSubscribe<User>) emitter ->
+                    new Handler(Looper.getMainLooper()).postDelayed(() -> {
+                        if (userValidator.isValid(user) && boxValidator.isValid(user.getUserBox())) {
+                            emitter.onNext(user);
+                        } else {
+                            if (!userValidator.isValid(user)) {
+                                emitter.onError(new Throwable(userValidator.getValidationMessage()));
+                            } else {
+                                emitter.onError(new Throwable(boxValidator.getValidationMessage()));
+                            }
+                        }
+                    }, 2000)).subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(
                             validUser -> {
