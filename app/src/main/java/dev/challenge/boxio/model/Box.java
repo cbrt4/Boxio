@@ -11,7 +11,6 @@ public class Box {
         Small, Medium, Large
     }
 
-    @Embedded
     private String boxSize;
 
     @Embedded

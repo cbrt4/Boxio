@@ -144,7 +144,7 @@ public class MainActivity extends AbstractActivity implements MainActivityView {
             hideKeyboard();
             mainPresenter.submit(new User(editTextUserName.getText().toString(),
                     editTextUserMail.getText().toString(),
-                    new Box(boxSize != null ? boxSize.name() : null, color != null ? color : new Color(null, null)),
+                    new Box(boxSize != null ? boxSize.name() : null, color),
                     "",
                     format.format(new Date(System.currentTimeMillis())),
                     checkBoxSignBox.isChecked()));
