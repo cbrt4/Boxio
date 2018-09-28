@@ -33,7 +33,6 @@ public class MainActivity extends AbstractActivity implements MainActivityView {
 
     private final String TAG = getClass().getSimpleName();
 
-    private User user;
     private Box.BoxSize boxSize;
     private Color color;
     private SimpleDateFormat format = new SimpleDateFormat("dd MMM yyyy 'at' HH:mm:ss z", Locale.getDefault());
@@ -145,7 +144,7 @@ public class MainActivity extends AbstractActivity implements MainActivityView {
             hideKeyboard();
             mainPresenter.submit(new User(editTextUserName.getText().toString(),
                     editTextUserMail.getText().toString(),
-                    new Box(boxSize, color),
+                    new Box(boxSize != null ? boxSize.name() : null, color != null ? color : new Color(null, null)),
                     "",
                     format.format(new Date(System.currentTimeMillis())),
                     checkBoxSignBox.isChecked()));
@@ -179,14 +178,12 @@ public class MainActivity extends AbstractActivity implements MainActivityView {
 
     @Override
     public void showSuccessMessage(String message) {
-        //showToast(message);
         showDialogNotification(message);
     }
 
     @Override
     public void showErrorMessage(String error) {
         Log.e(TAG, error);
-        //showToast(error);
         showDialogNotification(error);
     }
 
@@ -195,3 +192,5 @@ public class MainActivity extends AbstractActivity implements MainActivityView {
         System.out.println(userJson);
     }
 }
+
+

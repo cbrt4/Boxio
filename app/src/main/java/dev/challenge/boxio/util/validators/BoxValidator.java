@@ -30,17 +30,17 @@ public class BoxValidator extends Validator<Box> {
             return false;
         }
 
-        if (box.getBoxSize() == Box.BoxSize.Small) {
+        if (box.getBoxSize().equals(Box.BoxSize.Small.name())) {
             validationMessage = "Wrong box configuration";
             return Objects.equals(box.getBoxColor().getColorName(), "Red") || Objects.equals(box.getBoxColor().getColorName(), "Blue") || Objects.equals(box.getBoxColor().getColorName(), "Yellow");
         }
 
-        if (box.getBoxSize() == Box.BoxSize.Medium) {
+        if (box.getBoxSize().equals(Box.BoxSize.Medium.name())) {
             validationMessage = "Wrong box configuration";
             return Objects.equals(box.getBoxColor().getColorName(), "Red") || Objects.equals(box.getBoxColor().getColorName(), "Yellow") || Objects.equals(box.getBoxColor().getColorName(), "Purple") || Objects.equals(box.getBoxColor().getColorName(), "Green");
         }
 
-        if (box.getBoxSize() == Box.BoxSize.Small) {
+        if (box.getBoxSize().equals(Box.BoxSize.Small.name())) {
             validationMessage = "Wrong box configuration";
             return Objects.equals(box.getBoxColor().getColorName(), "Green") || Objects.equals(box.getBoxColor().getColorName(), "Orange") || Objects.equals(box.getBoxColor().getColorName(), "Blue");
         }

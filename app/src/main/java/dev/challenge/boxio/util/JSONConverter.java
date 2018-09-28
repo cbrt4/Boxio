@@ -85,7 +85,7 @@ public class JSONConverter {
     public Box getBoxFromJson(String boxInfo) {
         try {
             JSONObject boxJson = new JSONObject(boxInfo);
-            return new Box(Box.BoxSize.valueOf(boxJson.getString(BOX_SIZE_KEY)), getColorFromJson(boxJson.getString(BOX_COLOR_KEY)));
+            return new Box(boxJson.getString(BOX_SIZE_KEY), getColorFromJson(boxJson.getString(BOX_COLOR_KEY)));
         } catch (JSONException e) {
             e.printStackTrace();
             return null;

@@ -1,22 +1,28 @@
 package dev.challenge.boxio.model;
 
+import android.arch.persistence.room.Embedded;
 import android.support.annotation.NonNull;
 
 import java.util.Objects;
 
 public class Box {
 
-    public enum BoxSize {Small, Medium, Large}
+    public enum BoxSize {
+        Small, Medium, Large
+    }
 
-    private BoxSize boxSize;
+    @Embedded
+    private String boxSize;
+
+    @Embedded
     private Color boxColor;
 
-    public Box(BoxSize boxSize, Color boxColor) {
+    public Box(String boxSize, Color boxColor) {
         this.boxSize = boxSize;
         this.boxColor = boxColor;
     }
 
-    public BoxSize getBoxSize() {
+    public String getBoxSize() {
         return boxSize;
     }
 
