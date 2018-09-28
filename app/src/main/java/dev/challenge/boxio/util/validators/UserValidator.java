@@ -26,7 +26,7 @@ public class UserValidator extends Validator<User> {
                 return false;
             }
 
-            if (user.getUserName().matches("[A-Z, a-z]+")) {
+            if (!user.getUserName().matches("[A-Z][a-z]+")) {
                 validationMessage = "Wrong name format";
                 return false;
             }
